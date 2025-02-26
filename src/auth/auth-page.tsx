@@ -1,28 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  User,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, User } from "firebase/auth";
+import { auth } from "../firebase-config"; 
 import "./auth-page.css";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBZdcUAWIoanxZKzVLj6qilV4028czM7I0",
-  authDomain: "test-ara-aeeda.firebaseapp.com",
-  projectId: "test-ara-aeeda",
-  storageBucket: "test-ara-aeeda.firebasestorage.app",
-  messagingSenderId: "690718081867",
-  appId: "1:690718081867:web:0e1e3c701fd6ef28661ece",
-  measurementId: "G-W1HNVXV7HF",
-};
-
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 const AuthPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -108,18 +87,6 @@ const AuthPage: React.FC = () => {
           <button onClick={handleSignUp}>Signup</button>
         </div>
       </section>
-
-      {/* <section id="add-todo">
-        <form className="todo-form">
-          <input type="text" name="todo" placeholder="Todo" />
-          <button type="submit">Add Todo</button>
-        </form>
-      </section>
-
-      <section>
-        <h2>TODOS:</h2>
-        <div id="todos"></div>
-      </section> */}
     </div>
   );
 };
