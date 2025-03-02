@@ -26,7 +26,7 @@ const ViewPatients: React.FC = () => {
 
   return (
     <div>
-      <h1>Patients List</h1>
+      <h1>Patients List, test</h1>
       <ul>
         {patients.map((patient) => (
           <li key={patient.id}>{patient.name} - {patient.diagnosis}</li>
