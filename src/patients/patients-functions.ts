@@ -1,5 +1,5 @@
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../firebase-config";
+import { db } from "../firebase-config";
 
 // Add a new patient
 export const addPatient = async (patient: any) => {

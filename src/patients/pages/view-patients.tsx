@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getPatients,addPatient } from './patients-functions';
+import { getPatients,addPatient } from '../patients-functions';
+import Table from '../../common/table/table';
+import './view-patients.css'
 
 const ViewPatients: React.FC = () => {
   const [patients, setPatients] = useState<any[]>([]);
@@ -25,14 +27,8 @@ const ViewPatients: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Patients List</h1>
-      <ul>
-        {patients.map((patient) => (
-          <li key={patient.id}>{patient.name} - {patient.diagnosis}</li>
-        ))}
-      </ul>
-      <button onClick={handleAddPatient}>Add New Patient</button>
+    <div className='view-patients'>
+      <Table records={[]}/>
     </div>
   );
 };
