@@ -12,7 +12,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/patients' element={<ViewPatients/>}/>
-          <Route path='/scheduledSessions' element={<ScheculedSessions/>}/>
+          <Route path="/sessions/:patientId" element={<ScheculedSessions />} />
           <Route path='/auth' element={<AuthComponent/>}/>
           <Route path='/' element={<AuthComponent/>}/>
         </Routes>
