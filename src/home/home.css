@@ -1,0 +1,41 @@
+.homePage {
+    height: 80vh;
+    width: 90vw;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    background: rgba(255, 0, 0, 0);
+    justify-content: center;
+    align-items: center;
+}
+
+.homePage > img {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    -webkit-mask-image: linear-gradient(to right, transparent, black);
+    mask-image: linear-gradient(to right, transparent, black);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    z-index: 0;
+}
+
+.homeContent{
+    z-index: 1;
+    display: flex;
+    width: 90%;
+    height: 60%;
+    justify-content: space-between;
+}
+
+.navigationButtons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    row-gap: 20px;
+    background-color: rgb(127 172 190 / 24%);
+    border-radius: 20px;
+}

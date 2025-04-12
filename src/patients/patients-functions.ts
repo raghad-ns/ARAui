@@ -47,6 +47,7 @@ export const addPatient = async (patient: any) => {
 
 export const getPatients = async () => {
   try {
+    console.log('auth: ', auth)
     if (!auth.currentUser) {
       console.error("No therapist is logged in.");
       return [];

@@ -187,7 +187,8 @@
     border-radius: 8px;
     border: none;
     font-weight: bold;
-    background-color: #b38000;
+    
+    background-color: rgb(127 172 190);
     color: #fff2e0;
     cursor: pointer;
     transition: background-color 0.3s;

@@ -141,6 +141,7 @@ const ViewPatients: React.FC = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       const data = await getPatients();
+      console.log('patients: ', data)
       setPatients(data);
     };
     fetchPatients();
