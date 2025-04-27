@@ -172,7 +172,7 @@
     border: none;
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #3a3a45;
+    background-color: rgba(127, 172, 190, 0.734);
     color: white;
   }
   
@@ -195,7 +195,7 @@
   }
   
   button:hover {
-    background-color: #cc960e;
+    background-color: #69a4bb;
   }
   
   .welcome p {

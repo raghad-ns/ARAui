@@ -7,6 +7,7 @@
     background: rgba(255, 0, 0, 0);
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .homePage > img {
@@ -38,4 +39,7 @@
     row-gap: 20px;
     background-color: rgb(127 172 190 / 24%);
     border-radius: 20px;
+}
+.pageTop {
+    width: 50%;
 }

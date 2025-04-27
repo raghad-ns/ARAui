@@ -1,4 +1,4 @@
-.view-patients{
+.view-sessions{
     width: 95vw;
     height: 95vh;
     color: #dfdfdf;
@@ -9,7 +9,7 @@
     overflow: hidden;
 }
 
-.view-patients > .patientsTable{
+.view-sessions > .sessionsTable{
     background: rgba(127, 172, 190, 0.734);
     max-height: 75%;
     width: 100%;
@@ -22,39 +22,40 @@
     -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-.view-patients > .patientsTable > table > thead{
+.view-sessions > .sessionsTable > table > thead{
     background: rgb(87, 153, 180);
 }
-.view-patients > .patientsTable > table > thead > tr{
+.view-sessions > .sessionsTable > table > thead > tr{
     padding: 15px;
 }
 tr {
     padding-bottom: 5px;
 }
 
-.view-patients > .patientsTable > table > tbody > tr{
+.view-sessions > .sessionsTable > table > tbody > tr{
     margin-bottom: 25px;
     border-bottom: 1px solid rgb(87, 153, 180);
 }
 
-.view-patients > .patientsTable::-webkit-scrollbar {
+
+.view-sessions > .sessionsTable::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
 
-.view-patients > .patientsTable > table{
+.view-sessions > .sessionsTable > table{
     width: 100%;
     overflow: auto;
     text-align: center;
 }
 
-.patient-form  {
+.session-form  {    
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     row-gap: 20px;
     width: 100%;
 }
-.patient-form > .inputFields {
+.session-form > .inputFields {
     padding: 0px;
     display: flex;
     width: 100%;
@@ -63,7 +64,7 @@ tr {
     row-gap: 10px;
     column-gap: 10px;
 }
-.patient-form > .inputFields > input {
+.session-form > .inputFields > input {
     width: 200px;
     height: 40px;
 }

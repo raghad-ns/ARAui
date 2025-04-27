@@ -125,7 +125,30 @@ import { useNavigate } from "react-router-dom";
 import "./view-patients.css";
 
 const ViewPatients: React.FC = () => {
-  const [patients, setPatients] = useState<any[]>([]);
+  const [patients, setPatients] = useState<any[]>([
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+  ]);
   const [newPatient, setNewPatient] = useState({
     name: "",
     age: "",
@@ -137,20 +160,23 @@ const ViewPatients: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const fetchPatients = async () => {
+    const data = await getPatients();
+    console.log('patients: ', data)
+    console.log("data: ", data)
+    if (data.length) setPatients(data);
+    console.log("patients: ", patients)
+  };
+
   // Fetch patients from Firestore
-  useEffect(() => {
-    const fetchPatients = async () => {
-      const data = await getPatients();
-      console.log('patients: ', data)
-      setPatients(data);
-    };
-    fetchPatients();
-  }, []);
+  // useEffect(() => {
+  //   fetchPatients();
+  // }, []);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPatient({ 
-      ...newPatient, 
+    setNewPatient({
+      ...newPatient,
       [e.target.name]: e.target.type === "number" ? Number(e.target.value) : e.target.value
     });
   };
@@ -181,38 +207,45 @@ const ViewPatients: React.FC = () => {
 
   return (
     <div className="view-patients">
-      <h2>Manage Patients</h2>
+      <h2>Patients </h2>
 
       {/* Input Fields for New Patient */}
       <div className="patient-form">
-        <input type="text" name="name" placeholder="Name" value={newPatient.name} onChange={handleChange} required />
-        <input type="number" name="age" placeholder="Age" value={newPatient.age} onChange={handleChange} required />
-        <input type="text" name="gender" placeholder="Gender" value={newPatient.gender} onChange={handleChange} />
-        <input type="text" name="bmi" placeholder="BMI" value={newPatient.bmi} onChange={handleChange} />
-        <input type="text" name="diagnose" placeholder="Diagnosis" value={newPatient.diagnose} onChange={handleChange} required />
-        <input type="text" name="notes" placeholder="Notes" value={newPatient.notes} onChange={handleChange} />
+        <div className="inputFields">
+          <input type="text" name="name" placeholder="Name" value={newPatient.name} onChange={handleChange} required />
+          <input type="number" name="age" placeholder="Age" value={newPatient.age} onChange={handleChange} required />
+          <input type="text" name="gender" placeholder="Gender" value={newPatient.gender} onChange={handleChange} />
+          <input type="text" name="bmi" placeholder="BMI" value={newPatient.bmi} onChange={handleChange} />
+          <input type="text" name="diagnose" placeholder="Diagnosis" value={newPatient.diagnose} onChange={handleChange} required />
+          <input type="text" name="notes" placeholder="Notes" value={newPatient.notes} onChange={handleChange} />
+        </div>
         <button onClick={handleAddPatient}>Add Patient</button>
       </div>
 
       {/* Patients Table */}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Diagnosis</th>
-          </tr>
-        </thead>
-        <tbody>
-          {patients.map((patient) => (
-            <tr key={patient.id} onClick={() => handleRowClick(patient.id)} style={{ cursor: "pointer" }}>
-              <td>{patient.name}</td>
-              <td>{patient.age}</td>
-              <td>{patient.diagnose}</td>
+      <div className="patientsTable">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Diagnosis</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {patients.map((patient) => {
+              console.log("patient")
+              return (
+                <tr key={patient.id} onClick={() => handleRowClick(patient.id)} style={{ cursor: "pointer" }}>
+                  <td>{patient.name}</td>
+                  <td>{patient.age}</td>
+                  <td>{patient.diagnose}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
