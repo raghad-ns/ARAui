@@ -89,7 +89,7 @@
 // export default ScheduledSessions;
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSessions, addSession } from "../sessions-functions";
+import { getSessions, addSession } from "../../sessions-functions";
 import './scheduled-sessions.css'
 
 const ScheduledSessions: React.FC = () => {

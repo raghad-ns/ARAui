@@ -169,9 +169,9 @@ const ViewPatients: React.FC = () => {
   };
 
   // Fetch patients from Firestore
-  // useEffect(() => {
-  //   fetchPatients();
-  // }, []);
+  useEffect(() => {
+    fetchPatients();
+  }, []);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +202,7 @@ const ViewPatients: React.FC = () => {
       console.error("Invalid patient ID");
       return;
     }
-    navigate(`/sessions/${patientId}`);
+    navigate(`/patients/${patientId}`);
   };
 
   return (
@@ -229,7 +229,9 @@ const ViewPatients: React.FC = () => {
             <tr>
               <th>Name</th>
               <th>Age</th>
-              <th>Diagnosis</th>
+              <th>gender</th>
+              <th>BMI</th>
+              {/* <th>Details</th> */}
             </tr>
           </thead>
           <tbody>
@@ -239,7 +241,9 @@ const ViewPatients: React.FC = () => {
                 <tr key={patient.id} onClick={() => handleRowClick(patient.id)} style={{ cursor: "pointer" }}>
                   <td>{patient.name}</td>
                   <td>{patient.age}</td>
-                  <td>{patient.diagnose}</td>
+                  <td>{patient.gender}</td>
+                  <td>{patient.bmi}</td>
+                  {/* <td>{patient.diagnose}</td> */}
                 </tr>
               )
             })}
