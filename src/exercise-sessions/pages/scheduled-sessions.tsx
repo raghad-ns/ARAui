@@ -97,11 +97,10 @@ const ScheduledSessions: React.FC = () => {
   const [sessions, setSessions] = useState<any[]>([]);
   const [newSession, setNewSession] = useState({
     date: "",
-    exercise: "",
     duration: "",
-    therapist: "",
-    angleFrom: "",
-    angleTo: "",
+    therapistId: "",
+    extentionAngle: "",
+    flectionAngle: "",
     repetitions: ""
   });
 
@@ -116,16 +115,15 @@ const ScheduledSessions: React.FC = () => {
   }, [patientId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewSession({ ...newSession, [e.target.name]: e.target.value });
+    setNewSession({ ...newSession, [e.target.name]: e.target.value, therapistId: "55" });
   };
 
   const handleAddSession = async () => {
     if (
       !newSession.date ||
-      !newSession.exercise ||
       !newSession.duration ||
-      !newSession.angleFrom ||
-      !newSession.angleTo ||
+      !newSession.extentionAngle ||
+      !newSession.flectionAngle ||
       !newSession.repetitions
     ) {
       alert("Please fill in all fields!");
@@ -134,11 +132,10 @@ const ScheduledSessions: React.FC = () => {
     await addSession(patientId!, newSession);
     setNewSession({
       date: "",
-      exercise: "",
       duration: "",
-      therapist: "",
-      angleFrom: "",
-      angleTo: "",
+      therapistId: "",
+      extentionAngle: "",
+      flectionAngle: "",
       repetitions: ""
     });
 
@@ -155,15 +152,8 @@ const ScheduledSessions: React.FC = () => {
           <input
             type="date"
             name="date"
+            placeholder="schedule on..."
             value={newSession.date}
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="text"
-            name="exercise"
-            placeholder="Exercise"
-            value={newSession.exercise}
             onChange={handleChange}
             required
           />
@@ -176,25 +166,18 @@ const ScheduledSessions: React.FC = () => {
             required
           />
           <input
-            type="text"
-            name="therapist"
-            placeholder="Therapist"
-            value={newSession.therapist}
-            onChange={handleChange}
-          />
-          <input
             type="number"
-            name="angleFrom"
-            placeholder="Angle From (°)"
-            value={newSession.angleFrom}
+            name="extentionAngle"
+            placeholder="Extention angle (°)"
+            value={newSession.extentionAngle}
             onChange={handleChange}
             required
           />
           <input
             type="number"
-            name="angleTo"
-            placeholder="Angle To (°)"
-            value={newSession.angleTo}
+            name="flectionAngle"
+            placeholder="Flection angle (°)"
+            value={newSession.flectionAngle}
             onChange={handleChange}
             required
           />
@@ -215,12 +198,11 @@ const ScheduledSessions: React.FC = () => {
         <table>
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Exercise</th>
+              <th>Scheduled Date</th>
               <th>Duration</th>
-              <th>Therapist</th>
-              <th>Angle From (°)</th>
-              <th>Angle To (°)</th>
+              <th>Thyrapist</th>
+              <th>Extention angle (°)</th>
+              <th>Flection angle (°)</th>
               <th>Repetitions</th>
             </tr>
           </thead>
@@ -228,11 +210,10 @@ const ScheduledSessions: React.FC = () => {
             {sessions.map((session) => (
               <tr key={session.id}>
                 <td>{session.date}</td>
-                <td>{session.exercise}</td>
                 <td>{session.duration}</td>
                 <td>{session.therapist}</td>
-                <td>{session.angleFrom}</td>
-                <td>{session.angleTo}</td>
+                <td>{session.extentionAngle}</td>
+                <td>{session.flectionAngle}</td>
                 <td>{session.repetitions}</td>
               </tr>
             ))}

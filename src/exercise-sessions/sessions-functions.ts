@@ -58,12 +58,18 @@
 import { collection, addDoc, getDocs, doc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
+enum sessionStatus {
+  SCHEDULED,
+  INPROGRESS,
+  COMPLETED,
+}
+
 // Add a session for a specific patient
 export const addSession = async (patientId: string, sessionData: any) => {
   try {
     const patientRef = doc(db, "patients", patientId);
     const sessionsCollection = collection(patientRef, "sessions");
-    const docRef = await addDoc(sessionsCollection, sessionData);
+    const docRef = await addDoc(sessionsCollection, {...sessionData, status: sessionStatus.SCHEDULED});
     console.log("Session added with ID: ", docRef.id);
   } catch (error) {
     console.error("Error adding session: ", error);

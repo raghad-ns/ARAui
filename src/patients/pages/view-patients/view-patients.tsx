@@ -120,7 +120,7 @@
 
 
 import React, { useEffect, useState } from "react";
-import { getPatients, addPatient } from "../patients-functions";
+import { getPatients, addPatient } from "../../patients-functions";
 import { useNavigate } from "react-router-dom";
 import "./view-patients.css";
 
