@@ -55,7 +55,7 @@
 //     return [];
 //   }
 // };
-import { collection, addDoc, getDocs, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 enum sessionStatus {
@@ -67,21 +67,26 @@ enum sessionStatus {
 // Add a session for a specific patient
 export const addSession = async (patientId: string, sessionData: any) => {
   try {
-    const patientRef = doc(db, "patients", patientId);
-    const sessionsCollection = collection(patientRef, "sessions");
-    const docRef = await addDoc(sessionsCollection, {...sessionData, status: sessionStatus.SCHEDULED});
-    console.log("Session added with ID: ", docRef.id);
+    await addDoc(collection(db, "sessions"), {
+      ...sessionData,
+      patientId,
+      status: sessionStatus.SCHEDULED,
+      timestamp: new Date(),
+    });
+    console.log("Session added to global 'sessions' collection.");
   } catch (error) {
     console.error("Error adding session: ", error);
   }
 };
 
-// Get all sessions for a specific patient
+
+
 export const getSessions = async (patientId: string) => {
   try {
-    const patientRef = doc(db, "patients", patientId);
-    const sessionsCollection = collection(patientRef, "sessions");
-    const querySnapshot = await getDocs(sessionsCollection);
+    const sessionsRef = collection(db, "sessions");
+    const q = query(sessionsRef, where("patientId", "==", patientId));
+    const querySnapshot = await getDocs(q);
+
     const sessions: any[] = [];
     querySnapshot.forEach((doc) => {
       sessions.push({ id: doc.id, ...doc.data() });
@@ -92,3 +97,4 @@ export const getSessions = async (patientId: string) => {
     return [];
   }
 };
+;

@@ -93,6 +93,8 @@
 
 // export default AuthPage;
 import React, { useState, useEffect } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase-config";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -107,6 +109,8 @@ const AuthPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -125,15 +129,30 @@ const AuthPage: React.FC = () => {
     }
   };
 
-  const handleSignUp = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      setEmail("");
-      setPassword("");
-    } catch (error) {
-      console.error("Signup error:", error);
-    }
-  };
+
+const handleSignUp = async () => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    // Store name in Firestore
+    await setDoc(doc(db, "therapists", user.uid), {
+      name: name,
+      email: email,
+    });
+
+    setEmail("");
+    setPassword("");
+    setName("");
+  } catch (error) {
+    console.error("Signup error:", error);
+  }
+};
+
+
+
+
+
 
   const handleLogout = async () => {
     try {
@@ -147,29 +166,35 @@ const AuthPage: React.FC = () => {
     <div className="auth-wrapper">
       <img src="/araLogo.png" alt="ARA Logo" className="logo" />
       <div className="auth-card">
-        {!user ? (
-          <>
-            <h2>Welcome to ARA</h2>
-            <div className="auth-form">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="button-group">
-                <button onClick={handleLogin}>Login</button>
-                <button onClick={handleSignUp}>Signup</button>
-              </div>
-            </div>
-          </>
-        ) : (
+      {!user ? (
+  <>
+    <h2>Welcome to ARA</h2>
+    <div className="auth-form">
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <div className="button-group">
+        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleSignUp}>Signup</button>
+      </div>
+    </div>
+  </>
+)  : (
           <div className="welcome">
             <h2>Welcome,</h2>
             <p>{user.email}</p>

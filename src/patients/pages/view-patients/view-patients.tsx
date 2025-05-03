@@ -134,20 +134,7 @@ const ViewPatients: React.FC = () => {
     { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
     { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
     { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
-    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+
   ]);
   const [newPatient, setNewPatient] = useState({
     name: "",
@@ -162,10 +149,10 @@ const ViewPatients: React.FC = () => {
 
   const fetchPatients = async () => {
     const data = await getPatients();
-    console.log('patients: ', data)
-    console.log("data: ", data)
+    // console.log('patients: ', data)
+    // console.log("data: ", data)
     if (data.length) setPatients(data);
-    console.log("patients: ", patients)
+    // console.log("patients: ", patients)
   };
 
   // Fetch patients from Firestore
@@ -202,7 +189,7 @@ const ViewPatients: React.FC = () => {
       console.error("Invalid patient ID");
       return;
     }
-    navigate(`/patients/${patientId}`);
+    navigate(`/patients/${patientId}/sessions`);
   };
 
   return (
