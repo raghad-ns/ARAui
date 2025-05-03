@@ -207,10 +207,16 @@ const ViewPatients: React.FC = () => {
 
   return (
     <div className="view-patients">
-      <h2>Patients </h2>
 
       {/* Input Fields for New Patient */}
       <div className="patient-form">
+        <div className="addPatient">
+          <span className="addPatientDetails">
+            <span className="title">Add patient</span>
+            <span>Fill the following fields to add new patient</span>
+          </span>
+          <button onClick={handleAddPatient}>Add Patient</button>
+        </div>
         <div className="inputFields">
           <input type="text" name="name" placeholder="Name" value={newPatient.name} onChange={handleChange} required />
           <input type="number" name="age" placeholder="Age" value={newPatient.age} onChange={handleChange} required />
@@ -219,7 +225,6 @@ const ViewPatients: React.FC = () => {
           <input type="text" name="diagnose" placeholder="Diagnosis" value={newPatient.diagnose} onChange={handleChange} required />
           <input type="text" name="notes" placeholder="Notes" value={newPatient.notes} onChange={handleChange} />
         </div>
-        <button onClick={handleAddPatient}>Add Patient</button>
       </div>
 
       {/* Patients Table */}

@@ -145,9 +145,14 @@ const ScheduledSessions: React.FC = () => {
 
   return (
     <div className="view-sessions">
-      <h1>Patient Sessions</h1>
-
       <div className="session-form">
+      <div className="addSession">
+          <span className="addSessionDetails">
+            <span className="title">Schedule Session</span>
+            <span>Fill the following fields to schedule exercise session for this patient</span>
+          </span>
+          <button onClick={handleAddSession}>Add Session</button>
+        </div>
         <div className="inputFields">
           <input
             type="date"
@@ -190,7 +195,6 @@ const ScheduledSessions: React.FC = () => {
             required
           />
         </div>
-        <button onClick={handleAddSession}>Add Session</button>
       </div>
 
       <div className="sessionsTable">

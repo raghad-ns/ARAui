@@ -7,18 +7,20 @@ import AuthComponent from './auth/auth-page'
 import PatientDashboard from './dashboard/dashboard'
 import Home from './home/home'
 import SinglePatient from './patients/pages/single-patient/single-patient'
+import Header from './common/header/header'
 
 function App() {
 
   return (
     <>
+      <Header />
       <BrowserRouter>
         <Routes>
-          <Route path='/patients' element={<ViewPatients/>}/>
-          <Route path='/patients/:id' element={<SinglePatient/>}/>
+          <Route path='/patients' element={<ViewPatients />} />
+          <Route path='/patients/:id' element={<SinglePatient />} />
           <Route path="/sessions/:patientId" element={<ScheculedSessions />} />
-          <Route path='/auth' element={<AuthComponent/>}/>
-          <Route path='/' element={<Home/>}/>
+          <Route path='/auth' element={<AuthComponent />} />
+          <Route path='/' element={<Home />} />
           <Route path="/dashboard/:patientId" element={<PatientDashboard />} />
 
         </Routes>

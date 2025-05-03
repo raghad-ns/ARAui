@@ -6,7 +6,7 @@ import ScheduledSessions from '../../../exercise-sessions/pages/view-sessions/sc
 const SinglePatient = () => {
   return (
     <div>
-        <PatientInfo/>
+        {/* <PatientInfo/> */}
         <ScheduledSessions/>
     </div>
   )

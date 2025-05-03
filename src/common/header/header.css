@@ -1,0 +1,36 @@
+.headerWrapper {
+  padding: 0px;
+  text-align: center;
+  text-justify: center;
+  color: black;
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  background-color: #04a1e491;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  max-height: 5%;
+  align-items: center;
+}
+.headerWrapper > .leftSide {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0px;
+  align-items: center;
+}
+.headerWrapper > .leftSide > .logo {
+  padding: 0px;
+  width: 15%;
+}
+.headerWrapper > .leftSide > .title {
+  padding: 0px;
+  font-weight: bolder;
+  color: #284294 necessary;
+  font-size: 25px;
+}
+.headerWrapper > .rightSide {
+  width: 30%;
+  color: #284294;
+  padding: 0px;
+}
