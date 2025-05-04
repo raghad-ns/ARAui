@@ -2,7 +2,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import ViewPatients from './patients/pages/view-patients/view-patients'
-import ScheculedSessions from './exercise-sessions/pages/view-sessions/scheduled-sessions'
 import AuthComponent from './auth/auth-page'
 import PatientDashboard from './exercise-sessions/components/dashboard/dashboard'
 import Home from './home/home'
@@ -18,7 +17,6 @@ function App() {
         <Routes>
           <Route path='/patients' element={<ViewPatients />} />
           <Route path='/patients/:patientId' element={<SinglePatient />} />
-          <Route path="/sessions/:patientId" element={<ScheculedSessions />} />
           <Route path='/auth' element={<AuthComponent />} />
           <Route path='/' element={<Home />} />
           <Route path="/sessionDetails/:sessionId" element={<PatientDashboard />} />
