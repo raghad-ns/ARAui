@@ -38,13 +38,11 @@ const PatientDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="sessionDetails">
       <h1>Patient Progress Dashboard</h1>
 
       {/* Progress Chart */}
       <div className="charts">
-        <h2>Progress Over Time</h2>
-
         {/* Angle Chart */}
         <div className="chart-container">
           <h3>Angle Progress</h3>
@@ -52,7 +50,23 @@ const PatientDashboard: React.FC = () => {
             data={{
               labels,
               datasets: [{
-                label: "Angle (°)",
+                label: "Patient's elbow angle (°)",
+                data: angleData,
+                borderColor: "blue",
+                fill: false,
+              }],
+            }} 
+            options={chartOptions} 
+          />
+        </div>
+        {/* Angle Chart */}
+        <div className="chart-container">
+          <h3>Angle Progress</h3>
+          <Line 
+            data={{
+              labels,
+              datasets: [{
+                label: "Patient's elbow angle (°)",
                 data: angleData,
                 borderColor: "blue",
                 fill: false,
