@@ -110,6 +110,8 @@ const AuthPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+
 
 
   useEffect(() => {
@@ -164,45 +166,56 @@ const handleSignUp = async () => {
 
   return (
     <div className="auth-wrapper">
-      <img src="/araLogo.png" alt="ARA Logo" className="logo" />
-      <div className="auth-card">
+    <img src="/araLogo.png" alt="ARA Logo" className="logo" />
+    <div className="auth-card">
       {!user ? (
-  <>
-    <h2>Welcome to ARA</h2>
-    <div className="auth-form">
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <div className="button-group">
-        <button onClick={handleLogin}>Login</button>
-        <button onClick={handleSignUp}>Signup</button>
-      </div>
-    </div>
-  </>
-)  : (
-          <div className="welcome">
-            <h2>Welcome,</h2>
-            <p>{user.email}</p>
-            <button onClick={handleLogout}>Logout</button>
+        <>
+          <h2>{isLogin ? "Login to ARA" : "Sign up for ARA"}</h2>
+          <div className="auth-form">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+  
+            {!isLogin && (
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            )}
+  
+            <div className="button-group">
+              {isLogin ? (
+                <button onClick={handleLogin}>Login</button>
+              ) : (
+                <button onClick={handleSignUp}>Signup</button>
+              )}
+              <button onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? "Create an account" : "Have an account? Login"}
+              </button>
+            </div>
           </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <div className="welcome">
+          <h2>Welcome,</h2>
+          <p>{user.email}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
     </div>
+  </div>
+  
   );
 };
 
