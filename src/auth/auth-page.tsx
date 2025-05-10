@@ -20,8 +20,9 @@ const AuthPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
+  const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -59,13 +60,13 @@ const AuthPage: React.FC = () => {
   const handleSignUp = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    
-    // Store name in Firestore
-    await setDoc(doc(db, "therapists", user.uid), {
-      name: name,
-      email: email,
-    })
+      const user = userCredential.user;
+
+      // Store name in Firestore
+      await setDoc(doc(db, "therapists", user.uid), {
+        name: name,
+        email: email,
+      })
       setEmail("");
       setPassword("");
       setName("");
@@ -86,40 +87,52 @@ const AuthPage: React.FC = () => {
   return (
     <div className="login">
       <div className="form">
-        <p>welcome</p>
-        <form
-          className="login-form"
-        // onSubmit={login}
-        >
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="email"
-            name='email'
-            placeholder="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-          />
-          <input
-            type="password"
-            name='password'
-            placeholder="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Sign in</button>
-          <button onClick={handleSignUp}>Sign up</button>
-        </form>
+        {!userContext.user && (
+          <>
+            <p>{isLogin ? "Login to ARA" : "Sign up for ARA"}</p>
+            <div className="login-form">
+              <input
+                type="email"
+                name='email'
+                placeholder="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              />
+              <input
+                type="password"
+                name='password'
+                placeholder="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {!isLogin && (
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              )}
+
+              {isLogin ? (
+                <button onClick={handleLogin}>Login</button>
+              ) : (
+                <button onClick={handleSignUp}>Signup</button>
+              )}
+              <button onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? "Create an account" : "Have an account? Login"}
+              </button>
+            </div>
+          </>
+        ) }
       </div>
     </div>
-  )
+
+  );
 };
 
 export default AuthPage;
