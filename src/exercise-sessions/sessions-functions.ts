@@ -56,21 +56,6 @@
 //   }
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 // import { db } from "../firebase-config";
 
@@ -95,8 +80,6 @@
 //   }
 // };
 
-
-
 // export const getSessions = async (patientId: string) => {
 //   try {
 //     const sessionsRef = collection(db, "sessions");
@@ -115,7 +98,6 @@
 // };
 // ;
 
-
 // sessions-functions.ts
 import {
   collection,
@@ -124,7 +106,7 @@ import {
   query,
   where,
   doc,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 import { getDatabase, ref, set } from "firebase/database";
@@ -165,6 +147,18 @@ export const getSessions = async (patientId: string) => {
   } catch (error) {
     console.error("Error getting sessions: ", error);
     return [];
+  }
+};
+
+// Get session by id
+export const getSessionById = async (sessionId: string) => {
+  try {
+    const docRef = doc(db, "sessions", sessionId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data(); // returns the document data
+  } catch (error) {
+    console.error("Error getting sessions: ", error);
+    return null;
   }
 };
 

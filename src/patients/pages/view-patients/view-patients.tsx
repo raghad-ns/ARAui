@@ -149,7 +149,7 @@ const ViewPatients: React.FC = () => {
 
   const fetchPatients = async () => {
     const data = await getPatients();
-    // console.log('patients: ', data)
+    console.log('patients: ', data)
     // console.log("data: ", data)
     if (data.length) setPatients(data);
     // console.log("patients: ", patients)
@@ -189,7 +189,7 @@ const ViewPatients: React.FC = () => {
       console.error("Invalid patient ID");
       return;
     }
-    navigate(`/patients/${patientId}/sessions`);
+    navigate(`/patients/${patientId}`);
   };
 
   return (

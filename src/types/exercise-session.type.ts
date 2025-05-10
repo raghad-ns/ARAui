@@ -1,12 +1,14 @@
-export interface IExerciseSession{
-    id: number;
-    patientId: number;
-    extentionAngle: number;
-    flexionAngle: number;
-    repetition: number;
-    sessionDate: Date;
-    sessionTime: Date;
-    duration: number;
-    createdAt: Date;
-    updatedAt: Date;
+import { sessionStatus } from "../exercise-sessions/sessions-functions";
+
+export interface IExerciseSession {
+  Id: number;
+  patientId: string;
+  extentionAngle: number;
+  flexionAngle: number;
+  repetition: number;
+  status: sessionStatus;
+  date: Date;
+  therapist: string;
+  therapistId: string;
+  timestamp: any;
 }
