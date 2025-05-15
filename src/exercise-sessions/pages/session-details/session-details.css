@@ -38,11 +38,11 @@
     right: 20px;
 }
 .status.scheduled {
-    background-color: rgb(101, 240, 255);
+    background-color: hsl(0deg 0% 92.16%);
 }
 .status.completed {
-    background-color: #284294;
+    background-color: hsl(132 91% 57% / 1);
 }
 .status.inProgress {
-    background-color: rgb(145, 145, 145);
+    background-color: hsl(44.77deg 90.78% 57.45%);
 }
