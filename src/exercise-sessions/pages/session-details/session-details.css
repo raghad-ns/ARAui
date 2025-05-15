@@ -1,0 +1,48 @@
+.sessionDetails > .sessionInfo {
+    display: flex;
+    width: 98%;
+    margin: 8px;
+    padding-left: 20px;
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 30%;
+    background-color: #ddd;
+    border-radius: 20px;
+    box-shadow: 1px 0px 5px 1px #ccc;
+}
+
+.sessionDetails > .sessionInfo > .plan{
+    display: flex;
+    width: max-content;
+    padding: 5px 20px ;
+    flex-direction: column;
+    background-color: #ddd;
+}
+
+.sessionDetails > .sessionInfo > .patientPerformance{
+    display: flex;
+    width: max-content;
+    padding: 5px 20px ;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.status {
+    border-radius: 15px;
+    padding: 5px;
+    text-align: center;
+    text-justify: center;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+}
+.status.scheduled {
+    background-color: rgb(101, 240, 255);
+}
+.status.completed {
+    background-color: #284294;
+}
+.status.inProgress {
+    background-color: rgb(145, 145, 145);
+}

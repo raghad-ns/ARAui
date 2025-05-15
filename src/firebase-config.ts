@@ -18,6 +18,6 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);            // For Firestore
 const auth = getAuth(app);               // For Authentication
-const rtdb = getDatabase(app);           // ✅ For Realtime Database (correct URL)
+const realTimeDB = getDatabase(app);           // ✅ For Realtime Database (correct URL)
 
-export { db, auth, rtdb };
+export { db, auth, realTimeDB };

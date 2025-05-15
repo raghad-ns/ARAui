@@ -3,6 +3,7 @@ import SessionDashboard from '../../components/dashboard/dashboard'
 import { useParams } from 'react-router-dom';
 import { getSessionById, sessionStatus } from '../../sessions-functions';
 import { DocumentData } from 'firebase/firestore';
+import './session-details.css'
 
 const SessionDetails = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
@@ -14,20 +15,28 @@ const SessionDetails = () => {
         })
     }, [])
     return (
-        <div>
+        <div className='sessionDetails'>
             <div className="sessionInfo">
-                <span>status: {sessionStatus[session?.status]}</span>
+                <span className={
+                    `status ${session?.status == sessionStatus.SCHEDULED
+                        ? 'scheduled'
+                        : session?.status == sessionStatus.INPROGRESS ?
+                            'inProgress'
+                            : 'completed'
+                    }`}>
+                    {sessionStatus[session?.status]}
+                </span>
                 <div className="plan">
-                    <p>How therapist planned the session: </p>
+                    <p><b>How therapist planned the session: </b></p>
                     <span>Scheduled at: {session?.date.toString()}</span>
                     <span>Extention angle: {session?.extentionAngle}</span>
                     <span>Flection angle: {session?.flectionAngle}</span>
                     <span>Repetitions: {session?.repetitions}</span>
                 </div>
                 {
-                    session?.status == sessionStatus.COMPLETED &&
-                    <div className="patienPerformance">
-                        <p>How patient actually performed</p>
+                    (session?.status == sessionStatus.COMPLETED || 1) &&
+                    <div className="patientPerformance">
+                        <p><b>How patient actually performed: </b></p>
                         <span>Scheduled at: {session?.date.toString()}</span>
                         <span>Extention angle: {session?.extentionAngle}</span>
                         <span>Flection angle: {session?.flectionAngle}</span>
