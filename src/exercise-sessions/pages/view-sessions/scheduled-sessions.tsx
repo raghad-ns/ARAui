@@ -1,28 +1,23 @@
-
-// export default ScheduledSessions;
-// ScheduledSessions.tsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSessions, addSession, setActiveSession } from "../../sessions-functions"; // ✅ UPDATED
+import { getSessions, addSession, setLatestSession } from "../../sessions-functions";
 import { auth } from "../../../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
-import { getDatabase, ref, set } from "firebase/database";
-
-import './scheduled-sessions.css'
+import './scheduled-sessions.css';
 
 const ScheduledSessions: React.FC = () => {
   const { patientId } = useParams<{ patientId: string }>();
   const navigate = useNavigate();
   const [sessions, setSessions] = useState<any[]>([]);
-  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+
   const [newSession, setNewSession] = useState({
     date: "",
     duration: "",
     therapistId: "",
     extentionAngle: "",
     flectionAngle: "",
-    repetitions: ""
+    repetitions: "",
   });
 
   useEffect(() => {
@@ -91,10 +86,21 @@ const ScheduledSessions: React.FC = () => {
         therapistName = therapistDoc.data().name;
       }
 
-      await addSession(patientId, {
+      // Default new session has status 0 ("Scheduled")
+      const sessionData = {
         ...newSession,
         therapistId,
         therapist: therapistName,
+        status: 0,
+      };
+
+      // Add to Firestore
+      const addedSession = await addSession(patientId, sessionData);
+
+      // Set to Realtime DB as the latest session
+      await setLatestSession(patientId, {
+        ...sessionData,
+        id: addedSession.id, // ensure ID is included in Realtime
       });
 
       setNewSession({
@@ -103,13 +109,27 @@ const ScheduledSessions: React.FC = () => {
         therapistId: "",
         extentionAngle: "",
         flectionAngle: "",
-        repetitions: ""
+        repetitions: "",
       });
 
       const updatedSessions = await getSessions(patientId);
       setSessions(updatedSessions);
     } catch (error) {
       console.error("Error adding session with therapist:", error);
+    }
+  };
+
+  // Map status number to label
+  const getStatusText = (status: number) => {
+    switch (status) {
+      case 0:
+        return "Scheduled";
+      case 1:
+        return "In Progress";
+      case 2:
+        return "Completed";
+      default:
+        return "Unknown";
     }
   };
 
@@ -127,7 +147,7 @@ const ScheduledSessions: React.FC = () => {
           <input
             type="date"
             name="date"
-            placeholder="schedule on..."
+            placeholder="Schedule on..."
             value={newSession.date}
             onChange={handleChange}
             required
@@ -143,7 +163,7 @@ const ScheduledSessions: React.FC = () => {
           <input
             type="number"
             name="extentionAngle"
-            placeholder="Extention angle (°)"
+            placeholder="Extension angle (°)"
             value={newSession.extentionAngle}
             onChange={handleChange}
             required
@@ -151,7 +171,7 @@ const ScheduledSessions: React.FC = () => {
           <input
             type="number"
             name="flectionAngle"
-            placeholder="Flection angle (°)"
+            placeholder="Flexion angle (°)"
             value={newSession.flectionAngle}
             onChange={handleChange}
             required
@@ -174,10 +194,10 @@ const ScheduledSessions: React.FC = () => {
               <th>Scheduled Date</th>
               <th>Duration</th>
               <th>Therapist</th>
-              <th>Extention angle (°)</th>
-              <th>Flection angle (°)</th>
+              <th>Extension angle (°)</th>
+              <th>Flexion angle (°)</th>
               <th>Repetitions</th>
-              <th>Actions</th> {/* ✅ Add this header */}
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -189,27 +209,7 @@ const ScheduledSessions: React.FC = () => {
                 <td>{session.extentionAngle}</td>
                 <td>{session.flectionAngle}</td>
                 <td>{session.repetitions}</td>
-                <td>
-                  {/* <button
-                    // onClick={() => {
-                    //   setActiveSession(patientId!, session);
-                    //   setActiveSessionId(session.id);
-                    // }}
-                    onClick={() => handleStartSession(patientId!, session)}
-
-                    className="start-button"
-                    disabled={activeSessionId === session.id}
-                  >
-                    {activeSessionId === session.id ? "In Progress" : "Start"}
-                  </button> */}
-
-                  <button
-                    onClick={() => handleStartSession(patientId!, session)}
-                    className="start-button"
-                  >
-                    {session.status === "in progress" ? "In Progress" : "Start"}
-                  </button>
-                </td>
+                <td>{getStatusText(session.status)}</td>
               </tr>
             ))}
           </tbody>

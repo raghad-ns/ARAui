@@ -1,4 +1,3 @@
-// sessions-functions.ts
 import {
   collection,
   addDoc,
@@ -18,25 +17,63 @@ export enum sessionStatus {
 }
 
 // Add a session
+// export const addSession = async (patientId: string, sessionData: any) => {
+//   try {
+//     const newSessionRef = await addDoc(collection(db, "sessions"), {
+//       ...sessionData,
+//       patientId,
+//       status: sessionStatus.SCHEDULED,
+//       timestamp: new Date(),
+//     });
+//     console.log("Session added to global 'sessions' collection.");
+
+//     const rtdb = getDatabase();
+//     const latestRef = ref(rtdb, `latestSessions/${patientId}`);
+//     await set(latestRef, {
+//       ...sessionData,
+//       sessionId: newSessionRef.id,
+//       status: sessionStatus.SCHEDULED,
+//       timestamp: new Date().toISOString()
+//     });
+//   } catch (error) {
+//     console.error("Error adding session: ", error);
+//   }
+// };
+
 export const addSession = async (patientId: string, sessionData: any) => {
   try {
-    await addDoc(collection(db, "sessions"), {
+    const newSessionRef = await addDoc(collection(db, "sessions"), {
       ...sessionData,
       patientId,
       status: sessionStatus.SCHEDULED,
       timestamp: new Date(),
     });
     console.log("Session added to global 'sessions' collection.");
+
+    const rtdb = getDatabase();
+    const latestRef = ref(rtdb, `latestSessions/${patientId}`);
+    await set(latestRef, {
+      ...sessionData,
+      sessionId: newSessionRef.id,
+      status: sessionStatus.SCHEDULED,
+      timestamp: new Date().toISOString(),
+    });
+
+    return { id: newSessionRef.id };
   } catch (error) {
     console.error("Error adding session: ", error);
+    throw error;
   }
 };
+
+
 
 // Get sessions for a patient
 export const getSessions = async (patientId: string) => {
   try {
     const sessionsRef = collection(db, "sessions");
     const q = query(sessionsRef, where("patientId", "==", patientId));
+
     const querySnapshot = await getDocs(q);
 
     const sessions: any[] = [];
@@ -62,19 +99,19 @@ export const getSessionById = async (sessionId: string) => {
   }
 };
 
-// ✅ Set the active session, including session ID
-export const setActiveSession = async (patientId: string, sessionData: any) => {
+// Set the latest session (for ESP32 to fetch)
+export const setLatestSession = async (patientId: string, sessionData: any) => {
   try {
     const rtdb = getDatabase();
-    const sessionRef = ref(rtdb, `activeSessions/${patientId}`);
+    const sessionRef = ref(rtdb, `latestSessions/${patientId}`);
     const dataToSend = {
       ...sessionData,
-      sessionId: sessionData.id, // explicitly send sessionId
+      sessionId: sessionData.id,
     };
     await set(sessionRef, dataToSend);
-    alert("Session started and sent to ESP32!");
+    alert("Session marked as latest and sent to ESP32!");
   } catch (error) {
-    console.error("Error setting active session:", error);
-    alert("Failed to start session");
+    console.error("Error setting latest session:", error);
+    alert("Failed to update latest session");
   }
 };
