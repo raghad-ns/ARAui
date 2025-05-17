@@ -48,8 +48,7 @@ const SessionDashboard = (props: IProps) => {
 
 
   return (
-    <div className="sessionDetails">
-      <h1>Patient Progress Dashboard</h1>
+    <div className="sessionProgressDetails">
 
       {/* Progress Chart */}
       <div className="charts">

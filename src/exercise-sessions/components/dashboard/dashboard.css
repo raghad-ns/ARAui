@@ -1,36 +1,20 @@
-/* General Styles */
-/* body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f7fb;
-  margin: 0;
-  padding: 0;
-} */
-.sessionDetails {
-  width: 100vw;
-  height: 90vh;
-}
-.sessionDetails > h1 {
+
+.sessionProgressDetails > h1 {
   text-align: center;
   color: #333;
   margin-top: 20px;
 }
 
-.sessionDetails > h2 {
+.sessionProgressDetails > h2 {
   color: #333;
   margin-bottom: 10px;
 }
 
-.sessionDetails > h3 {
+.sessionProgressDetails > h3 {
   color: #444;
   margin-bottom: 15px;
 }
 
-/* Dashboard container */
-/* div {
-    padding: 20px;
-  } */
-
-/* Latest session section */
 .latest-session {
   background-color: #fff;
   padding: 20px;
@@ -49,8 +33,10 @@
 
 /* Charts section */
 .charts {
+  margin-top: 20px;
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   gap: 20px;
 }
 
