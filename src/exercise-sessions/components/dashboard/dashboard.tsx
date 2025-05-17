@@ -2,17 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2"; 
 import "chart.js/auto"; // Import chart.js for auto-configuration
 import './dashboard.css';
+import { fetchRollData } from "../../sessions-functions";
 
 interface IProps {
   sessionId: string
 }
 
 const SessionDashboard = (props: IProps) => {
-  const [angleData, setAngleData] = useState<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]); // Initial angle values
-  const [labels, setLabels] = useState<string[]>([
-    "2025-04-01", "2025-04-02", "2025-04-03", "2025-04-04", "2025-04-05", "2025-04-06", "2025-04-07", 
-    "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-12"
-  ]); // Initial date labels
+  const [angleData, setAngleData] = useState<number[]>([]); // Initial angle values
+  const [dataSize, setDataSize] = useState(50);
+  const [labels, setLabels] = useState<string[]>(() => {
+    const dates = []
+    for (let i = 0; i < 50; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() - (500 -i));
+      dates.push(date.toISOString().split('T')[0]); // Format: YYYY-MM-DD
+    }
+    return dates
+  }); // Initial date labels
 
   // Chart configurations
   const chartOptions = {
@@ -22,24 +29,23 @@ const SessionDashboard = (props: IProps) => {
     },
   };
 
-  // Function to generate random angle
-  const generateRandomAngle = () => {
-    return Math.floor(Math.random() * (180 - 10 + 1)) + 10; // Random angle between 10° and 180°
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log("Running every 10 seconds", dataSize);
+      setDataSize(prev => prev + 10)
+      // 👇 Call your function here
+    }, 10000); // 10 seconds = 10,000 ms
+
+    return () => clearInterval(interval); // 🔄 Clean up on unmount
+  }, []); // Empty dependency array = run once on mount
 
   useEffect(() => {
-    // Set interval to add new value every 10 seconds
-    const intervalId = setInterval(() => {
-      const newAngle = generateRandomAngle(); // Generate a random angle
-      const newLabel = new Date().toLocaleDateString(); // Get the current date as a label
+    console.log('size: ', dataSize)
+    fetchRollData("123456", dataSize).then(rollData => {
+      setAngleData(rollData)
+    })
+  }, [dataSize])
 
-      setAngleData((prevAngleData) => [...prevAngleData, newAngle]); // Add new angle to the data
-      setLabels((prevLabels) => [...prevLabels, newLabel]); // Add the current date to the labels
-    }, 10000); // 10 seconds interval
-
-    // Cleanup function to clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <div className="sessionDetails">

@@ -7,8 +7,8 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
-import { getDatabase, ref, set } from "firebase/database";
+import { db, realTimeDB } from "../firebase-config";
+import { getDatabase, ref, set, get, limitToLast, orderByKey } from "firebase/database";
 
 export enum sessionStatus {
   SCHEDULED,
@@ -114,4 +114,21 @@ export const setLatestSession = async (patientId: string, sessionData: any) => {
     console.error("Error setting latest session:", error);
     alert("Failed to update latest session");
   }
-};
+};  
+
+
+export async function fetchRollData(sessionId = "123456", size?: number) {
+  if (!size) size = 50
+  console.log('received size: ', size)
+  const rollRef = ref(realTimeDB, `Sessions/${sessionId}/roll`);
+  const rollQuery = query(rollRef, orderByKey(), limitToLast(size));
+
+  const snapshot = await get(rollQuery);
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    console.log('roll values: ', Object.values(data))
+    return Object.values(data); // returns an array of values
+  } else {
+    return [];
+  }
+}

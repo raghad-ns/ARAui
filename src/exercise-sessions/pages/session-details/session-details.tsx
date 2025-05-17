@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import SessionDashboard from '../../components/dashboard/dashboard'
 import { useParams } from 'react-router-dom';
-import { getSessionById, sessionStatus } from '../../sessions-functions';
+import { fetchRollData, getSessionById, sessionStatus } from '../../sessions-functions';
 import { DocumentData } from 'firebase/firestore';
 import './session-details.css'
+import { realTimeDB } from '../../../firebase-config';
+import { ref } from "firebase/database";
 
 const SessionDetails = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [session, setSession] = useState<DocumentData | null>();
+
     useEffect(() => {
         getSessionById(sessionId || '').then(currentSession => {
             console.log('current session: ', currentSession)
