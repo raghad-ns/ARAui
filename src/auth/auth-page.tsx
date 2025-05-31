@@ -7,7 +7,6 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
-  User,
 } from "firebase/auth";
 import { auth } from "../firebase-config";
 import "./auth-page.css";

@@ -117,13 +117,11 @@ export const setLatestSession = async (patientId: string, sessionData: any) => {
 };  
 
 
-export async function fetchRollData(sessionId = "123456", size?: number) {
-  if (!size) size = 50
-  console.log('received size: ', size)
-  const rollRef = ref(realTimeDB, `Sessions/${sessionId}/roll`);
-  const rollQuery = query(rollRef, orderByKey(), limitToLast(size));
+export async function fetchRollData(sessionId = "123456", dataToFetch: string) {
+  const rollRef = ref(realTimeDB, `Sessions/${sessionId}/${dataToFetch}`);
+  // const rollQuery = query(rollRef, orderByKey(), limitToLast(size));
 
-  const snapshot = await get(rollQuery);
+  const snapshot = await get(rollRef);
   if (snapshot.exists()) {
     const data = snapshot.val();
     console.log('roll values: ', Object.values(data))

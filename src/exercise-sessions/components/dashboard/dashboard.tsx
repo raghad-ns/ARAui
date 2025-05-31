@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2"; 
+import { Line } from "react-chartjs-2";
 import "chart.js/auto"; // Import chart.js for auto-configuration
 import './dashboard.css';
 import { fetchRollData } from "../../sessions-functions";
@@ -10,16 +10,8 @@ interface IProps {
 
 const SessionDashboard = (props: IProps) => {
   const [angleData, setAngleData] = useState<number[]>([]); // Initial angle values
-  const [dataSize, setDataSize] = useState(50);
-  const [labels, setLabels] = useState<string[]>(() => {
-    const dates = []
-    for (let i = 0; i < 50; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() - (500 -i));
-      dates.push(date.toISOString().split('T')[0]); // Format: YYYY-MM-DD
-    }
-    return dates
-  }); // Initial date labels
+  const [labels, setLabels] = useState<string[]>([]); // Initial date labels
+  const [patientActivity, setPatientActivity] = useState<string[]>([]); // Initial date labels
 
   // Chart configurations
   const chartOptions = {
@@ -31,20 +23,34 @@ const SessionDashboard = (props: IProps) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("Running every 10 seconds", dataSize);
-      setDataSize(prev => prev + 10)
-      // 👇 Call your function here
-    }, 10000); // 10 seconds = 10,000 ms
+      fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'roll').then(rollData => {
+        setAngleData(rollData)
+        console.log('roll data from dashboard: ', rollData)
+      })
+      fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'patientActivity').then(patientActivity => {
+        setPatientActivity(patientActivity)
+      })
+      fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'time').then(time => {
+        const startedAt = Number(time[0]);
+        setLabels(time.map(sample => (Number(sample) - startedAt)))
+      })
+    }, 10); // 10 seconds = 10,000 ms
 
     return () => clearInterval(interval); // 🔄 Clean up on unmount
   }, []); // Empty dependency array = run once on mount
 
   useEffect(() => {
-    console.log('size: ', dataSize)
-    fetchRollData("123456", dataSize).then(rollData => {
+    fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'roll').then(rollData => {
       setAngleData(rollData)
     })
-  }, [dataSize])
+    fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'patientActivity').then(patientActivity => {
+      setPatientActivity(patientActivity)
+    })
+    fetchRollData("sHAHu4PVs5YHnnYD2QEa", 'time').then(time => {
+      const startedAt = Number(time[0]);
+      setLabels(time.map(sample => (Number(sample) - startedAt)))
+    })
+  }, [])
 
 
   return (
@@ -55,7 +61,7 @@ const SessionDashboard = (props: IProps) => {
         {/* Angle Chart */}
         <div className="chart-container">
           <h3>Angle Progress</h3>
-          <Line 
+          <Line
             data={{
               labels,
               datasets: [{
@@ -64,24 +70,24 @@ const SessionDashboard = (props: IProps) => {
                 borderColor: "blue",
                 fill: false,
               }],
-            }} 
-            options={chartOptions} 
+            }}
+            options={chartOptions}
           />
         </div>
         {/* Angle Chart */}
         <div className="chart-container">
           <h3>Patient motion (active/ passive)</h3>
-          <Line 
+          <Line
             data={{
               labels,
               datasets: [{
                 label: "Patient's activity (0/1)",
-                data: angleData,
+                data: patientActivity,
                 borderColor: "green",
                 fill: false,
               }],
-            }} 
-            options={chartOptions} 
+            }}
+            options={chartOptions}
           />
         </div>
       </div>
