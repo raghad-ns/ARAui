@@ -1,17 +1,19 @@
 .sessionDetails {
     width: 100vw;
     height: 90vh;
+    padding-top: 50px;
 }
 .sessionDetails > .sessionInfo {
     display: flex;
     width: 99%;
     margin: 8px;
+    /* margin-top: 30px; */
     padding-left: 20px;
     flex-direction: row;
     justify-content: flex-start;
     column-gap: 30%;
     background-color: #fff;
-    border-radius: 20px;
+    border-radius: 10px;
     box-shadow: 1px 0px 5px 1px #ccc;
 }
 
@@ -26,7 +28,6 @@
     display: flex;
     width: max-content;
     padding: 5px 20px ;
-    border-radius: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -37,7 +38,7 @@
     text-align: center;
     text-justify: center;
     position: absolute;
-    top: 70px;
+    top: 110px;
     right: 20px;
 }
 .status.scheduled {

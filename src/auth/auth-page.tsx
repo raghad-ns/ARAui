@@ -40,7 +40,6 @@ const AuthPage: React.FC = () => {
     console.log('auth: ', auth)
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
-        window.alert('logged in successfully')
         setEmail("");
         setPassword("");
         if (userContext.setUser)
@@ -48,13 +47,8 @@ const AuthPage: React.FC = () => {
         navigate('/patients')
       }).catch(error => {
         console.error("Login error:", error);
-        window.alert('something went wrong')
 
       })
-    // try {
-    //   const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-    // } catch (error) {
-    // }
   };
 
   const handleSignUp = async () => {

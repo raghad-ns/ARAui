@@ -3,14 +3,15 @@
   text-align: center;
   text-justify: center;
   color: black;
-  position: sticky;
+  position: fixed;
   top: 0px;
   width: 100%;
   background-color: #04a1e491;
   display: flex;
   justify-content: space-between;
   z-index: 1;
-  max-height: 5%;
+  height: fit-content;
+  /* max-height: 5%; */
   align-items: center;
 }
 .headerWrapper > .leftSide {
@@ -18,16 +19,22 @@
   justify-content: flex-start;
   padding: 0px;
   align-items: center;
+  min-width: 250px;
+  width: fit-content;
+  /* flex-grow: 1;
+  text-align: start necessary; */
 }
 .headerWrapper > .leftSide > .logo {
   padding: 0px;
   width: 15%;
+  z-index: 2;
 }
 .headerWrapper > .leftSide > .title {
   padding: 0px;
   font-weight: bolder;
   color: #284294 necessary;
   font-size: 25px;
+  width: max-content;
 }
 .headerWrapper > .rightSide {
   width: 30%;

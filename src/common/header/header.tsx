@@ -11,7 +11,11 @@ const Header = () => {
         <div className="title">
           {
             window.location.pathname.includes("patients")
-              ? "Patients" : "something"}
+              ? "Patients" 
+              : window.location.pathname.includes('sessionDetails') 
+              ? "Session details" 
+              : ''
+              }
         </div>
       </div>
       <div className="rightSide">
