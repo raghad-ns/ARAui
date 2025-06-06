@@ -52,9 +52,7 @@ export const getPatients = async () => {
       console.error("No therapist is logged in.");
       return [];
     }
-
-    const therapistId = auth.currentUser.uid; // Get logged-in therapist ID
-    const patientsQuery = query(collection(db, "patients"), where("therapistId", "==", therapistId));
+    const patientsQuery = query(collection(db, "patients"));
     const querySnapshot = await getDocs(patientsQuery);
 
     const patients: any[] = [];

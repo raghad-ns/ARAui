@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './header.css'
+import { useLocation } from 'react-router-dom'
+
 
 const Header = () => {
+  const pathname = useLocation().pathname;
   return (
     <div className='headerWrapper'>
       <div className="leftSide">
@@ -10,12 +13,14 @@ const Header = () => {
         </div>
         <div className="title">
           {
-            window.location.pathname.includes("patients")
-              ? "Patients" 
-              : window.location.pathname.includes('sessionDetails') 
-              ? "Session details" 
-              : ''
-              }
+            pathname.includes("patients")
+              ? "Patients"
+              : pathname.includes('sessionDetails')
+                ? "Session details"
+                : pathname.includes('patientSessions')
+                  ? 'Excercise sessions'
+                  : ''
+          }
         </div>
       </div>
       <div className="rightSide">

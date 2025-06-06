@@ -11,7 +11,7 @@
   justify-content: space-between;
   z-index: 1;
   height: fit-content;
-  /* max-height: 5%; */
+  max-height: 60px;
   align-items: center;
 }
 .headerWrapper > .leftSide {
@@ -26,7 +26,7 @@
 }
 .headerWrapper > .leftSide > .logo {
   padding: 0px;
-  width: 15%;
+  width: 92.55px;
   z-index: 2;
 }
 .headerWrapper > .leftSide > .title {

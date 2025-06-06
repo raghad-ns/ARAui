@@ -12,11 +12,11 @@ function App() {
 
   return (
     <>
-      <Header />
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path='/patients' element={<ViewPatients />} />
-          <Route path='/patients/:patientId' element={<SinglePatient />} />
+          <Route path='/patientSessions/:patientId' element={<SinglePatient />} />
           <Route path='/auth' element={<AuthComponent />} />
           <Route path='/' element={<Home />} />
           <Route path="/sessionDetails/:sessionId" element={<SessionDetails />} />
