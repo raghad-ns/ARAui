@@ -99,23 +99,6 @@ export const getSessionById = async (sessionId: string) => {
   }
 };
 
-// Set the latest session (for ESP32 to fetch)
-export const setLatestSession = async (patientId: string, sessionData: any) => {
-  try {
-    const rtdb = getDatabase();
-    const sessionRef = ref(rtdb, `latestSessions/${patientId}`);
-    const dataToSend = {
-      ...sessionData,
-      sessionId: sessionData.id,
-    };
-    await set(sessionRef, dataToSend);
-    alert("Session marked as latest and sent to ESP32!");
-  } catch (error) {
-    console.error("Error setting latest session:", error);
-    alert("Failed to update latest session");
-  }
-};  
-
 
 export async function fetchRollData(sessionId = "123456", dataToFetch: string) {
   const rollRef = ref(realTimeDB, `Sessions/${sessionId}/${dataToFetch}`);

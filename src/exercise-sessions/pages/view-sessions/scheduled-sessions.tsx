@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getSessions, addSession, setLatestSession } from "../../sessions-functions";
+import { getSessions, addSession } from "../../sessions-functions";
 import { auth } from "../../../firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
@@ -31,26 +31,6 @@ const ScheduledSessions: React.FC = () => {
   }, [patientId]);
 
   const showSessionDetails = (sessionId: string) => navigate(`/sessionDetails/${sessionId}`)
-
-  const handleStartSession = (patientId: string, session: any) => {
-    const db = getDatabase();
-    const sessionRef = ref(db, `activeSessions/${patientId}/${session.id}`);
-
-    // Add a status field to show "in progress"
-    const sessionWithStatus = {
-      ...session,
-      status: "in progress",
-      startedAt: new Date().toISOString(),
-    };
-
-    set(sessionRef, sessionWithStatus)
-      .then(() => {
-        console.log("Session data sent to Firebase!");
-      })
-      .catch((error) => {
-        console.error("Error writing to Firebase:", error);
-      });
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSession({ ...newSession, [e.target.name]: e.target.value, therapistId: "55" });
@@ -95,13 +75,7 @@ const ScheduledSessions: React.FC = () => {
       };
 
       // Add to Firestore
-      const addedSession = await addSession(patientId, sessionData);
-
-      // Set to Realtime DB as the latest session
-      await setLatestSession(patientId, {
-        ...sessionData,
-        id: addedSession.id, // ensure ID is included in Realtime
-      });
+      await addSession(patientId, sessionData);
 
       setNewSession({
         date: "",
