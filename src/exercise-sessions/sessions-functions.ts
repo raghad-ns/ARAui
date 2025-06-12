@@ -100,7 +100,7 @@ export const getSessionById = async (sessionId: string) => {
 };
 
 
-export async function fetchRollData(sessionId = "123456", dataToFetch: string) {
+export async function fetchٌRealTimeData(sessionId = "123456", dataToFetch: string) {
   const rollRef = ref(realTimeDB, `Sessions/${sessionId}/${dataToFetch}`);
   // const rollQuery = query(rollRef, orderByKey(), limitToLast(size));
 
