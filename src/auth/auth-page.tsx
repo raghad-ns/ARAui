@@ -1,6 +1,6 @@
 // export default AuthPage;
 import React, { useState, useEffect, useContext } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import {
   signInWithEmailAndPassword,
@@ -32,22 +32,39 @@ const AuthPage: React.FC = () => {
   }, []);
 
   const handleLogin = async () => {
-    console.log('email: ', email)
-    console.log('password: ', password)
-    console.log('email: ', email)
-    console.log('password: ', password)
-    console.log('auth: ', auth)
     signInWithEmailAndPassword(auth, email, password)
-      .then(userCredentials => {
+      .then((userCredentials) => {
         setEmail("");
         setPassword("");
-        if (userContext.setUser)
-          userContext.setUser(userCredentials.user);
+
+        getTherapistById(userCredentials.user.uid).then(therapist => {
+          console.log('user after login: ', therapist)
+          if (userContext.setUser)
+            userContext.setUser(therapist);
+        })
         navigate('/patients')
       }).catch(error => {
         console.error("Login error:", error);
 
       })
+  };
+
+
+  // Get therapist by id
+  const getTherapistById = async (therapistId: string) => {
+    try {
+      const docRef = doc(db, "therapists", therapistId);
+      const docSnap = await getDoc(docRef);
+      console.log("docSnap.exists():", docSnap.exists());
+      if (docSnap.exists()) {
+        return(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error getting therapists: ", error);
+      return null;
+    }
   };
 
   const handleSignUp = async () => {
@@ -121,7 +138,7 @@ const AuthPage: React.FC = () => {
               </button>
             </div>
           </>
-        ) }
+        )}
       </div>
     </div>
 

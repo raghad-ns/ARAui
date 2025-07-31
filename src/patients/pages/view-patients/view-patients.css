@@ -33,6 +33,10 @@
   position: sticky;
   top: 0px;
 }
+.view-patients > .patientsTable > table > thead > tr > td {
+  /* text-align: start; */
+  padding-left: 45px;
+}
 .view-patients > .patientsTable > table > thead > tr {
   padding: 15px;
   border-radius: 10px;
@@ -43,7 +47,11 @@ tr {
   border-radius: 10px;
 }
 
+.view-patients > .patientsTable > table > tbody > tr > td {
+  /* padding-left: 45px; */
+}
 .view-patients > .patientsTable > table > tbody > tr {
+  /* padding-left: 15px; */
   margin-bottom: 25px;
   border-bottom: 1px solid #bbb;
   border-radius: 10px;
@@ -56,7 +64,7 @@ tr {
 .view-patients > .patientsTable > table {
   width: 100%;
   overflow: auto;
-  text-align: center;
+  /* text-align: start; */
 }
 
 .patient-form {

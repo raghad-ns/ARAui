@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { User } from "firebase/auth";
+import { DocumentData } from "firebase/firestore";
 
 interface IProps {
     children: React.ReactNode;
 }
 
 interface IState {
-    setUser?: React.Dispatch<React.SetStateAction<User | undefined>>,
-    user?: User;
+    setUser?: React.Dispatch<React.SetStateAction<DocumentData | null | undefined>>,
+    user?: DocumentData | null | undefined;
 }
 
 export const UserContext: React.Context<IState> = React.createContext({});
 const UserProvider = (props: IProps) => {
-    const [user, setUser] = useState<User>();
+    const [user, setUser] = useState<DocumentData | null | undefined>();
     React.useMemo(() => {
         let u = sessionStorage.getItem('user');
         if (u) {

@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './header.css'
 import { useLocation } from 'react-router-dom'
+import { UserContext } from '../../providers/User/UserProvider';
 
 
 const Header = () => {
   const pathname = useLocation().pathname;
+  const user = React.useContext(UserContext);
+  console.log("user: ", user.user)
   return (
     <div className='headerWrapper'>
       <div className="leftSide">
@@ -23,9 +26,12 @@ const Header = () => {
           }
         </div>
       </div>
-      <div className="rightSide">
-        User
-      </div>
+      {
+        user.user &&
+        <div className="rightSide">
+          User
+        </div>
+      }
     </div>
   )
 }
