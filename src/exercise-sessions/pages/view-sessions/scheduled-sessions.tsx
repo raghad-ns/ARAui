@@ -18,6 +18,7 @@ const ScheduledSessions: React.FC = () => {
     extentionAngle: "",
     flectionAngle: "",
     repetitions: "",
+    struggleDuration: "", // ➕ New field added
   });
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ScheduledSessions: React.FC = () => {
     fetchSessions();
   }, [patientId]);
 
-  const showSessionDetails = (sessionId: string) => navigate(`/sessionDetails/${sessionId}`)
+  const showSessionDetails = (sessionId: string) => navigate(`/sessionDetails/${sessionId}`);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewSession({ ...newSession, [e.target.name]: e.target.value, therapistId: "55" });
@@ -47,7 +48,8 @@ const ScheduledSessions: React.FC = () => {
       !newSession.duration ||
       !newSession.extentionAngle ||
       !newSession.flectionAngle ||
-      !newSession.repetitions
+      !newSession.repetitions ||
+      !newSession.struggleDuration // ➕ Validate new field
     ) {
       alert("Please fill in all fields!");
       return;
@@ -66,15 +68,14 @@ const ScheduledSessions: React.FC = () => {
         therapistName = therapistDoc.data().name;
       }
 
-      // Default new session has status 0 ("Scheduled")
       const sessionData = {
         ...newSession,
         therapistId,
         therapist: therapistName,
+        patientId,
         status: 0,
       };
 
-      // Add to Firestore
       await addSession(patientId, sessionData);
 
       setNewSession({
@@ -84,6 +85,7 @@ const ScheduledSessions: React.FC = () => {
         extentionAngle: "",
         flectionAngle: "",
         repetitions: "",
+        struggleDuration: "", // ➕ Reset field
       });
 
       const updatedSessions = await getSessions(patientId);
@@ -93,7 +95,6 @@ const ScheduledSessions: React.FC = () => {
     }
   };
 
-  // Map status number to label
   const getStatusText = (status: number) => {
     switch (status) {
       case 0:
@@ -158,6 +159,14 @@ const ScheduledSessions: React.FC = () => {
             onChange={handleChange}
             required
           />
+          <input
+            type="text"
+            name="struggleDuration"
+            placeholder="Struggle Duration (e.g., 5 mins)"
+            value={newSession.struggleDuration}
+            onChange={handleChange}
+            required
+          />
         </div>
       </div>
 
@@ -171,6 +180,7 @@ const ScheduledSessions: React.FC = () => {
               <th>Extension angle (°)</th>
               <th>Flexion angle (°)</th>
               <th>Repetitions</th>
+              <th>Struggle Duration</th> {/* ➕ Table header */}
               <th>Status</th>
             </tr>
           </thead>
@@ -183,6 +193,7 @@ const ScheduledSessions: React.FC = () => {
                 <td>{session.extentionAngle}</td>
                 <td>{session.flectionAngle}</td>
                 <td>{session.repetitions}</td>
+                <td>{session.struggleDuration}</td> {/* ➕ Display data */}
                 <td>{getStatusText(session.status)}</td>
               </tr>
             ))}

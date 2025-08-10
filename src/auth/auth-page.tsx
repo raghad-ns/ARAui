@@ -1,4 +1,3 @@
-// export default AuthPage;
 import React, { useState, useEffect, useContext } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -13,82 +12,103 @@ import "./auth-page.css";
 import { UserContext } from "../providers/User/UserProvider";
 import { useNavigate } from "react-router-dom";
 
-const AuthPage: React.FC = () => {
-  // const [user, setUser] = useState<User | null>(null);
-  const userContext = useContext(UserContext)
+const AuthPage = () => {
+  const userContext = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (userContext.setUser)
-        userContext.setUser(currentUser == null ? undefined : currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogin = async () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
-        setEmail("");
-        setPassword("");
-
-        getTherapistById(userCredentials.user.uid).then(therapist => {
-          console.log('user after login: ', therapist)
-          if (userContext.setUser)
-            userContext.setUser(therapist);
-        })
-        navigate('/patients')
-      }).catch(error => {
-        console.error("Login error:", error);
-
-      })
-  };
-
-
-  // Get therapist by id
-  const getTherapistById = async (therapistId: string) => {
+  // Fetch therapist data by ID from Firestore
+  const getTherapistById = async (therapistId:any) => {
     try {
       const docRef = doc(db, "therapists", therapistId);
       const docSnap = await getDoc(docRef);
-      console.log("docSnap.exists():", docSnap.exists());
       if (docSnap.exists()) {
-        return(docSnap.data());
+        return docSnap.data();
       } else {
         console.log("No such document!");
+        return null;
       }
     } catch (error) {
-      console.error("Error getting therapists: ", error);
+      console.error("Error getting therapist:", error);
       return null;
     }
   };
 
+  // Persist user after refresh
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser && userContext.setUser) {
+        const therapist = await getTherapistById(currentUser.uid);
+        if (therapist) {
+          userContext.setUser(therapist);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Handle login
+  const handleLogin = async () => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+      setEmail("");
+      setPassword("");
+
+      const therapist = await getTherapistById(userCredentials.user.uid);
+      if (therapist && userContext.setUser) {
+        userContext.setUser(therapist);
+      }
+      if (therapist && userContext.setUser) {
+    console.log("Setting user context with: ", therapist);
+    userContext.setUser(therapist);
+}
+
+   console.log("Therapist data from Firestore: ", therapist);
+
+      navigate("/home");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
+  // Handle sign-up
   const handleSignUp = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Store name in Firestore
+      
+      // Store user data in Firestore
       await setDoc(doc(db, "therapists", user.uid), {
         name: name,
         email: email,
-      })
+      });
+
+      if (userContext.setUser) {
+        userContext.setUser({ name: name, email: email });
+      }
+
       setEmail("");
       setPassword("");
       setName("");
-      navigate('/patients')
+      console.log("User after signup: ", { name, email });
+
+      navigate("/home");
     } catch (error) {
       console.error("Signup error:", error.message);
     }
+    
   };
 
+  // Handle logout
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      if (userContext.setUser) {
+        userContext.setUser(undefined);
+      }
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -103,17 +123,14 @@ const AuthPage: React.FC = () => {
             <div className="login-form">
               <input
                 type="email"
-                name='email'
-                placeholder="email"
+                placeholder="Email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              // pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               />
               <input
                 type="password"
-                name='password'
-                placeholder="password"
+                placeholder="Password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -121,7 +138,6 @@ const AuthPage: React.FC = () => {
               {!isLogin && (
                 <input
                   type="text"
-                  name="name"
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -141,7 +157,6 @@ const AuthPage: React.FC = () => {
         )}
       </div>
     </div>
-
   );
 };
 
