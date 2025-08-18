@@ -15,7 +15,7 @@ const SessionDetails = () => {
     const [angleData, setAngleData] = useState<number[]>([]); 
     const [labels, setLabels] = useState<string[]>([]); 
     const [patientActivity, setPatientActivity] = useState<string[]>([]); 
-    const [angularSpeed, setAngularSpeed] = useState<string[]>([]); 
+    const [emg, setEMG] = useState<string[]>([]); 
     const [patientPain, setPatientPain] = useState<string[]>([]); 
 
     // Chart configurations
@@ -31,17 +31,18 @@ const SessionDetails = () => {
             setAngleData(rollData);
             console.log('roll data from dashboard: ', rollData);
         });
-        fetchٌRealTimeData(sessionId, 'patientActivity').then(patientActivity => {
-            setPatientActivity(patientActivity);
+        fetchٌRealTimeData(sessionId, 'patientActivity').then(patientActivityValue => {
+            setPatientActivity(patientActivityValue);
+            console.log('patient activity from dashboard: ', patientActivityValue);
         });
         fetchٌRealTimeData(sessionId, 'time').then(time => {
             const startedAt = Number(time[0]);
             setLabels(time.map(sample => (Number(sample) - startedAt).toString()));
         });
-        fetchٌRealTimeData(sessionId, 'speed').then(speed => {
-            setAngularSpeed(speed);
+        fetchٌRealTimeData(sessionId, 'emg').then(emgValue => {
+            setEMG(emgValue);
         });
-        fetchٌRealTimeData(sessionId, 'speed').then(pain => {
+        fetchٌRealTimeData(sessionId, 'force').then(pain => {
             setPatientPain(pain);
         });
     };
@@ -172,6 +173,22 @@ pdf.text(`Therapist: ${session?.therapist || 'N/A'}`, 10, yPos);
                                 datasets: [{
                                     label: "Patient's elbow angle (°)",
                                     data: angleData,
+                                    borderColor: "yellow",
+                                    fill: false,
+                                }],
+                            }}
+                            options={chartOptions}
+                        />
+                    </div>
+                    {/* Muscle Activity Chart */}
+                    <div className="chart-container">
+                        <h3>Bicep muscle activity</h3>
+                        <Line
+                            data={{
+                                labels,
+                                datasets: [{
+                                    label: "Bicep muscle activity",
+                                    data: emg,
                                     borderColor: "yellow",
                                     fill: false,
                                 }],
