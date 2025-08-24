@@ -113,3 +113,18 @@ export async function fetchٌRealTimeData(sessionId = "123456", dataToFetch: str
     return [];
   }
 }
+
+export async function fetchٌRealTimeDataV2(sessionId = 'PhpbV5awaUTKcNmIsRV3') {
+  const rollRef = ref(realTimeDB, `Sessions/${sessionId}`);
+  // const rollQuery = query(rollRef, orderByKey(), limitToLast(size));
+
+  const snapshot = await get(rollRef);
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    console.log('roll values: ', Object.values(data))
+    return data
+    // return Object.values(data); // returns an array of values
+  } else {
+    return {};
+  }
+}

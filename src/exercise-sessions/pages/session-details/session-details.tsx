@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchٌRealTimeData, getSessionById, sessionStatus } from '../../sessions-functions';
+import { fetchٌRealTimeData, fetchٌRealTimeDataV2, getSessionById, sessionStatus } from '../../sessions-functions';
 import { DocumentData } from 'firebase/firestore';
 import './session-details.css';
 import { Line } from "react-chartjs-2";
@@ -27,24 +27,13 @@ const SessionDetails = () => {
     };
 
     const getRealTimeData = () => {
-        fetchٌRealTimeData(sessionId, 'roll').then(rollData => {
-            setAngleData(rollData);
-            console.log('roll data from dashboard: ', rollData);
-        });
-        fetchٌRealTimeData(sessionId, 'patientActivity').then(patientActivityValue => {
-            setPatientActivity(patientActivityValue);
-            console.log('patient activity from dashboard: ', patientActivityValue);
-        });
-        fetchٌRealTimeData(sessionId, 'time').then(time => {
-            const startedAt = Number(time[0]);
-            setLabels(time.map(sample => (Number(sample) - startedAt).toString()));
-        });
-        fetchٌRealTimeData(sessionId, 'emg').then(emgValue => {
-            setEMG(emgValue);
-        });
-        fetchٌRealTimeData(sessionId, 'force').then(pain => {
-            setPatientPain(pain);
-        });
+        fetchٌRealTimeDataV2(sessionId).then(data => {
+            setAngleData(Object.values(data).map(entry => entry.roll))
+            setEMG(Object.values(data).map(entry => entry.emg))
+            setPatientActivity(Object.values(data).map(entry => entry.patientActivity))
+            setLabels(Object.values(data).map(entry => entry.time))
+            setPatientPain(Object.values(data).map(entry => entry.force))
+        })
     };
 
     useEffect(() => {
