@@ -1,0 +1,131 @@
+.sessionDetails {
+    width: 100vw;
+    height: 90vh;
+    padding-top: 50px;
+}
+.sessionDetails > .sessionInfo {
+    display: flex;
+    width: 99%;
+    margin: 8px;
+    /* margin-top: 30px; */
+    padding-left: 20px;
+    flex-direction: row;
+    justify-content: flex-start;
+    column-gap: 30%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 0px 5px 1px #ccc;
+}
+
+.sessionDetails > .sessionInfo > .plan{
+    display: flex;
+    width: max-content;
+    padding: 5px 20px ;
+    flex-direction: column;
+}
+
+.sessionDetails > .sessionInfo > .patientPerformance{
+    display: flex;
+    width: max-content;
+    padding: 5px 20px ;
+    display: flex;
+    flex-direction: column;
+}
+
+.status {
+    border-radius: 15px;
+    padding: 5px;
+    text-align: center;
+    text-justify: center;
+    position: absolute;
+    top: 110px;
+    right: 20px;
+}
+.status.scheduled {
+    background-color: hsl(0deg 0% 92.16%);
+}
+.status.completed {
+    background-color: hsl(132 91% 57% / 1);
+}
+.status.inProgress {
+    background-color: hsl(44.77deg 90.78% 57.45%);
+}
+
+
+.sessionProgressDetails > h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+}
+
+.sessionProgressDetails > h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.sessionProgressDetails > h3 {
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.latest-session {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.latest-session p {
+  margin: 10px 0;
+}
+
+.latest-session strong {
+  color: #007bff;
+}
+
+/* Charts section */
+.charts {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.chart-container {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  width: 90%;
+  display: inline;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h3 {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .charts {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chart-container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}

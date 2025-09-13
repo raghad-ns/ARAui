@@ -1,0 +1,115 @@
+.view-patients {
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: hidden;
+  padding-top: 40px;
+}
+
+.view-patients > .patientsTable {
+  margin: 10px 0px;
+  background: #efefef;
+  max-height: 75%;
+  width: 100%;
+  overflow: auto;
+  padding: 0px;
+  text-align: center;
+  border-radius: 10px;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  box-shadow: 0px 0px 10px 5px #ccc;
+}
+button{
+  background-color: #284294;
+  color: #fff;
+}
+.view-patients > .patientsTable > table > thead {
+  background: #284294;
+  /* color: #7bd0f4; */
+  color: #fff;
+  border-radius: 10px;
+  position: sticky;
+  top: 0px;
+}
+.view-patients > .patientsTable > table > thead > tr > td {
+  /* text-align: start; */
+  padding-left: 45px;
+}
+.view-patients > .patientsTable > table > thead > tr {
+  padding: 15px;
+  border-radius: 10px;
+}
+tr {
+  height: 40px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+}
+
+.view-patients > .patientsTable > table > tbody > tr > td {
+  /* padding-left: 45px; */
+}
+.view-patients > .patientsTable > table > tbody > tr {
+  /* padding-left: 15px; */
+  margin-bottom: 25px;
+  border-bottom: 1px solid #bbb;
+  border-radius: 10px;
+}
+
+.view-patients > .patientsTable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.view-patients > .patientsTable > table {
+  width: 100%;
+  overflow: auto;
+  /* text-align: start; */
+}
+
+.patient-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 20px;
+  width: 100%;
+  padding: 20px 10px;
+  box-shadow: 0px 0px 10px 5px #ccc;
+  border-radius: 10px;
+}
+
+.patient-form > .addPatient {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.patient-form > .addPatient > .addPatientDetails {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.patient-form > .addPatient > .addPatientDetails > .title {
+  text-decoration: solid;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.patient-form > .inputFields {
+  padding: 0px;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+.patient-form > .inputFields > input {
+  width: 200px;
+  height: 40px;
+}

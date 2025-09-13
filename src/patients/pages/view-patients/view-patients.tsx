@@ -1,0 +1,130 @@
+
+
+import React, { useEffect, useState } from "react";
+import { getPatients, addPatient } from "../../patients-functions";
+import { useNavigate } from "react-router-dom";
+import "./view-patients.css";
+
+const ViewPatients: React.FC = () => {
+  const [patients, setPatients] = useState<any[]>([
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+    { name: "patient1", age: 20, gender: "female", bmi: 25, notes: "nothing", diagnose: "diagnose" },
+
+  ]);
+  const [newPatient, setNewPatient] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    bmi: "",
+    diagnose: "",
+    notes: "",
+  });
+
+  const navigate = useNavigate();
+
+  const fetchPatients = async () => {
+    const data = await getPatients();
+    console.log('patients: ', data)
+    // console.log("data: ", data)
+    if (data.length) setPatients(data);
+    // console.log("patients: ", patients)
+  };
+
+  // Fetch patients from Firestore
+  useEffect(() => {
+    fetchPatients();
+  }, []);
+
+  // Handle input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPatient({
+      ...newPatient,
+      [e.target.name]: e.target.type === "number" ? Number(e.target.value) : e.target.value
+    });
+  };
+
+  // Add patient to Firestore and update the table
+  const handleAddPatient = async () => {
+    if (!newPatient.name || !newPatient.age || !newPatient.diagnose) {
+      alert("Please fill in required fields (Name, Age, Diagnosis)");
+      return;
+    }
+
+    await addPatient(newPatient);
+    setNewPatient({ name: "", age: "", gender: "", bmi: "", diagnose: "", notes: "" });
+
+    // Refresh the list of patients
+    const updatedPatients = await getPatients();
+    setPatients(updatedPatients);
+  };
+
+  // Navigate to the session page of the selected patient
+  const handleRowClick = (patientId?: string) => {
+    if (!patientId) {
+      console.error("Invalid patient ID");
+      return;
+    }
+    navigate(`/patientSessions/${patientId}`);
+  };
+
+  return (
+    <div className="view-patients">
+
+      {/* Input Fields for New Patient */}
+      <div className="patient-form">
+        <div className="addPatient">
+          <span className="addPatientDetails">
+            <span className="title">Add patient</span>
+            <span>Fill the following fields to add new patient</span>
+          </span>
+          <button onClick={handleAddPatient}>Add Patient</button>
+        </div>
+        <div className="inputFields">
+          <input type="text" name="name" placeholder="Name" value={newPatient.name} onChange={handleChange} required />
+          <input type="number" name="age" placeholder="Age" value={newPatient.age} onChange={handleChange} required />
+          <input type="text" name="gender" placeholder="Gender" value={newPatient.gender} onChange={handleChange} />
+          <input type="text" name="bmi" placeholder="BMI" value={newPatient.bmi} onChange={handleChange} />
+          <input type="text" name="diagnose" placeholder="Diagnosis" value={newPatient.diagnose} onChange={handleChange} required />
+          <input type="text" name="notes" placeholder="Notes" value={newPatient.notes} onChange={handleChange} />
+        </div>
+      </div>
+
+      {/* Patients Table */}
+      <div className="patientsTable">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>gender</th>
+              <th>BMI</th>
+              {/* <th>Details</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {patients.map((patient) => {
+              console.log("patient")
+              return (
+                <tr key={patient.id} onClick={() => handleRowClick(patient.id)} style={{ cursor: "pointer" }}>
+                  <td>{patient.name}</td>
+                  <td>{patient.age}</td>
+                  <td>{patient.gender}</td>
+                  <td>{patient.bmi}</td>
+                  {/* <td>{patient.diagnose}</td> */}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default ViewPatients;
